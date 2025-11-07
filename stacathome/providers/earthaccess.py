@@ -1,6 +1,5 @@
 import csv
-import re
-from collections import defaultdict, namedtuple
+from collections import namedtuple
 from datetime import datetime
 from importlib.resources import files
 from pathlib import Path
@@ -10,17 +9,13 @@ import earthaccess.results
 import pystac
 import shapely
 from earthaccess.search import DataCollections
-from odc.geo import geom
 from odc.geo.geom import Geometry
 from odc.stac import load
-from rasterio.env import Env
 from rio_stac.stac import bbox_to_geom
 
-import stacathome.geo as geo
-from stacathome.processors.common import get_property
 from ..generic_utils import get_nested
-from ..stac import update_asset_exts, update_stac_item
-from .common import BaseProvider, register_provider, SimpleProvider
+from ..stac import update_stac_item
+from .common import register_provider, SimpleProvider
 
 
 def save_list_of_tuples(data, path):
@@ -80,7 +75,7 @@ class EarthAccessProvider(SimpleProvider):
             return matches
         highest = {}
         for m in matches:
-            if not m.collection in highest or highest.get(m.collection, ('', None))[0] < m.version:
+            if m.collection not in highest or highest.get(m.collection, ('', None))[0] < m.version:
                 highest[m.collection] = (m.version, m)
         return [i[1] for i in highest.values()]
 

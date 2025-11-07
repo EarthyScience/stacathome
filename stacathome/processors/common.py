@@ -210,13 +210,7 @@ def no_overlap_filter_coverage(items, roi, min_overlap=None):
         items = [
             item
             for item in items
-            if geo.wgs84_overlap_percentage(
-                geom.Geometry(
-                    shapely.geometry.shape(item.geometry),
-                    '4326',
-                ),
-                roi,
-            )
+            if geo.wgs84_overlap_percentage(geom.Geometry(shapely.geometry.shape(item.geometry), '4326'), roi)
             >= min_overlap
         ]
     if not items:
