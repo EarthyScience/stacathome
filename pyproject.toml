@@ -30,7 +30,6 @@ dependencies = [
     'shapely',
     'tqdm',
     'xarray',
-    'zarr~=2.18.7',
     'asf_search',
     'rio-stac',
     'pyarrow',
@@ -48,6 +47,11 @@ dev = [
     'jinja2',
     'matplotlib',
     'folium',
+    'numba',
+    'scipy',
+    'seaborn',
+    'zarr~=2.18.7',
+    'h5py',
 ]
 
 [dependency-groups]

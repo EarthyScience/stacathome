@@ -1,5 +1,6 @@
 import datetime as dt
 import os
+import io
 import re
 
 import h5py as h5
@@ -8,6 +9,7 @@ import rasterio
 import rioxarray #
 import xarray as xr
 
+import earthaccess
 
 def get_datetime_from_filename(fname):
     m = re.search(r"A(\d{4})(\d{3})", fname)
@@ -38,6 +40,9 @@ def _coords_from_transform(transform, width, height):
 
 
 def load_viirs_as_xarray(path, scale_and_clip: bool = False):
+    if isinstance(path, str) and path.startswith("http"):
+        data_bytes = earthaccess.download(path, local_path='memfile', threads=1)
+        path = data_bytes[0]
     with h5.File(path, "r") as file:
         mtl = file["HDFEOS INFORMATION/StructMetadata.0"][()]
         if isinstance(mtl, bytes):
