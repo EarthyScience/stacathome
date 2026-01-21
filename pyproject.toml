@@ -50,7 +50,7 @@ dev = [
     'numba',
     'scipy',
     'seaborn',
-    'zarr~=2.18.7',
+    #'zarr~=2.18.7',
     'h5py',
 ]
 
