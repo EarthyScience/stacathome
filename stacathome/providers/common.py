@@ -213,7 +213,7 @@ class SimpleProvider(BaseProvider):
             raise ValueError('No items provided for loading.')
 
         variables = set(variables) if variables else None
-        groupby = kwargs.pop('groupby', 'id')
+        groupby = kwargs.pop('group_by', 'id')
 
         data = load(
             items=items,
