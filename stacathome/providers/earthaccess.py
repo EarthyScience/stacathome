@@ -38,6 +38,15 @@ class EarthAccessProvider(SimpleProvider):
     def __init__(self, provider_name: str):
         super().__init__(provider_name)
         earthaccess.login(persist=True)
+        self.session = earthaccess.get_requests_https_session()
+        self.sign = self.sign_url
+
+    def sign_url(self, url: str) -> str:
+        """Resolve redirects through the authenticated session to get a signed URL."""
+        r = self.session.get(url, allow_redirects=False)
+        if r.status_code in (301, 302, 303, 307, 308):
+            return r.headers["Location"]
+        return url
 
     @property
     def _available_collections(self) -> list[tuple[str, str]]:
